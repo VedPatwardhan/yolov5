@@ -354,7 +354,6 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
             # Forward
             with amp.autocast(enabled=cuda):
                 pred = model(imgs)  # forward
-                print("Predicted: ", pred[0].shape, pred[1].shape, pred[2].shape)
                 loss, loss_items = compute_loss(pred, targets.to(device))  # loss scaled by batch_size
                 if RANK != -1:
                     loss *= WORLD_SIZE  # gradient averaged between devices in DDP mode
@@ -404,6 +403,7 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
                                            plots=False,
                                            callbacks=callbacks,
                                            compute_loss=compute_loss)
+                print("Results: ", results)
 
             # Update best mAP
             fi = fitness(np.array(results).reshape(1, -1))  # weighted combination of [P, R, mAP@.5, mAP@.5-.95]
