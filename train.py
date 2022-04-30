@@ -31,6 +31,7 @@ from torch.cuda import amp
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.optim import SGD, Adam, AdamW, lr_scheduler
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 from captum.attr import IntegratedGradients
 from captum.attr import GradientShap
@@ -356,6 +357,7 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
                 print('Images', imgs.shape)
                 pred = model(imgs)  # forward
                 print('Prediction', pred[0].shape, pred[1].shape, pred[2].shape)
+                plt.imshow(np.transpose(pred[0][0].detach().numpy(), (3, 0, 1, 2))[0])
                 loss, loss_items = compute_loss(pred, targets.to(device))  # loss scaled by batch_size
                 if RANK != -1:
                     loss *= WORLD_SIZE  # gradient averaged between devices in DDP mode
