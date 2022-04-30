@@ -404,6 +404,7 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
                                            callbacks=callbacks,
                                            compute_loss=compute_loss)
                 print("Results: ", results)
+                print("Maps: ", maps)
 
             # Update best mAP
             fi = fitness(np.array(results).reshape(1, -1))  # weighted combination of [P, R, mAP@.5, mAP@.5-.95]
