@@ -200,7 +200,6 @@ class ComputeLoss:
 
             # Match targets to anchors
             t = targets * gain  # shape(3,n,7)
-            print("Targets: ", t.shape)
             if nt:
                 # Matches
                 r = t[..., 4:6] / anchors[:, None]  # wh ratio
@@ -231,5 +230,6 @@ class ComputeLoss:
             tbox.append(torch.cat((gxy - gij, gwh), 1))  # box
             anch.append(anchors[a])  # anchors
             tcls.append(c)  # class
+            print("Targets: ", c)
 
         return tcls, tbox, indices, anch
