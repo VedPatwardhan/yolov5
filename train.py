@@ -358,7 +358,8 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
                 pred = model(imgs)  # forward
                 print('Prediction', pred[0].shape, pred[1].shape, pred[2].shape)
                 print('Image shape', np.transpose(pred[0][0].cpu().detach().numpy(), (3, 1, 2, 0))[0].shape)
-                # plt.imshow(np.transpose(pred[0][0].cpu().detach().numpy(), (3, 1, 2, 0))[0])
+                plt.imshow(np.transpose(pred[0][0].cpu().detach().numpy(), (3, 1, 2, 0))[0])
+                plt.show()
                 loss, loss_items = compute_loss(pred, targets.to(device))  # loss scaled by batch_size
                 if RANK != -1:
                     loss *= WORLD_SIZE  # gradient averaged between devices in DDP mode
