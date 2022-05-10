@@ -29,8 +29,6 @@ def captum_attribution(model, im):
     integrated_gradients = IntegratedGradients(tensor2scalar)
     attributions_ig = integrated_gradients.attribute(im)
     print("Attributions Integrated Gradients", attributions_ig.shape)
-    cv2.imshow(np.transpose(attributions_ig.cpu().detach().numpy(), (1, 2, 0)))
-    cv2.waitKey(10000)
 
     noise_tunnel = NoiseTunnel(integrated_gradients)
     attributions_ig_nt = noise_tunnel.attribute(im, nt_type='smoothgrad_sq')
