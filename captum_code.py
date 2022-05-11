@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib
-matplotlib.use('TkAgg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import os
@@ -46,8 +46,7 @@ def captum_attribution(model, im, path):
                              ['original_image', 'heat_map'],
                              ['all', 'positive'],
                              cmap=default_cmap,
-                             show_colorbar=True,
-                             figsize=(30, 30))
+                             show_colorbar=True)
     fig.savefig('./results/{}/integrated_gradients.png'.format(folder_name))
 
     noise_tunnel = NoiseTunnel(integrated_gradients)
@@ -58,8 +57,7 @@ def captum_attribution(model, im, path):
                                       ["original_image", "heat_map"],
                                       ["all", "positive"],
                                       cmap=default_cmap,
-                                      show_colorbar=True,
-                                      figsize=(30, 30))
+                                      show_colorbar=True)
     fig.savefig('./results/{}/noise_tunnel.png'.format(folder_name))
 
     rand_img_dist = torch.cat([im * 0, im * 1])
@@ -71,8 +69,7 @@ def captum_attribution(model, im, path):
                                       ["original_image", "heat_map"],
                                       ["all", "absolute_value"],
                                       cmap=default_cmap,
-                                      show_colorbar=True,
-                                      figsize=(30, 30))
+                                      show_colorbar=True)
     fig.savefig('./results/{}/gradient_shap.png'.format(folder_name))
 
     occlusion = Occlusion(tensor2scalar)
@@ -83,6 +80,5 @@ def captum_attribution(model, im, path):
                                       ["original_image", "heat_map"],
                                       ["all", "positive"],
                                       show_colorbar=True,
-                                      outlier_perc=2,
-                                      figsize=(30, 30))
+                                      outlier_perc=2)
     fig.savefig('./results/{}/occlusion.png'.format(folder_name))
