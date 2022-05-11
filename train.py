@@ -356,40 +356,6 @@ def train(hyp, opt, device, callbacks):  # hyp is path/to/hyp.yaml or hyp dictio
             # Forward
             with amp.autocast(enabled=cuda):
                 pred = model(imgs)  # forward
-                
-                array1 = np.transpose(pred[0][0].cpu().detach().numpy(), (3, 1, 2, 0))
-                array2 = np.transpose(pred[1][0].cpu().detach().numpy(), (3, 1, 2, 0))
-                array3 = np.transpose(pred[2][0].cpu().detach().numpy(), (3, 1, 2, 0))
-
-                folder_name = paths[0].split('/')[-1][0:-4]
-                root_path = '/content/results/'
-                full_path = root_path + folder_name
-                if not os.path.exists(full_path):
-                  for i in range(array1.shape[0]):
-                    os.makedirs('{0}/1/{1}'.format(full_path, i+1))
-                  for i in range(array2.shape[0]):
-                    os.makedirs('{0}/2/{1}'.format(full_path, i+1))
-                  for i in range(array3.shape[0]):
-                    os.makedirs('{0}/3/{1}'.format(full_path, i+1))
-
-                for i in range(array1.shape[0]):
-                  k1 = len(os.listdir('{0}/1/{1}'.format(full_path, i+1))) + 1
-                  array = array1[i]
-                  array = (array - np.min(array))/ (np.max(array) - np.min(array))
-                  plt.imsave('{0}/1/{1}/{2}.png'.format(full_path, i+1, k1), array)
-
-                for i in range(array2.shape[0]):
-                  k2 = len(os.listdir('{0}/2/{1}'.format(full_path, i+1))) + 1
-                  array = array2[i]
-                  array = (array - np.min(array))/ (np.max(array) - np.min(array))
-                  plt.imsave('{0}/2/{1}/{2}.png'.format(full_path, i+1, k1), array)
-
-                for i in range(array3.shape[0]):
-                  k3 = len(os.listdir('{0}/3/{1}'.format(full_path, i+1))) + 1
-                  array = array3[i]
-                  array = (array - np.min(array))/ (np.max(array) - np.min(array))
-                  plt.imsave('{0}/2/{1}/{2}.png'.format(full_path, i+1, k1), array)
-
                 loss, loss_items = compute_loss(pred, targets.to(device))  # loss scaled by batch_size
                 if RANK != -1:
                     loss *= WORLD_SIZE  # gradient averaged between devices in DDP mode
