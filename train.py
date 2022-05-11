@@ -31,13 +31,6 @@ from torch.cuda import amp
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.optim import SGD, Adam, AdamW, lr_scheduler
 from tqdm import tqdm
-import matplotlib.pyplot as plt
-
-from captum.attr import IntegratedGradients
-from captum.attr import GradientShap
-from captum.attr import Occlusion
-from captum.attr import NoiseTunnel
-from captum.attr import visualization as viz
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
